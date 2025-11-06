@@ -1,50 +1,133 @@
-# Welcome to your Expo app 👋
+# XR-TV - Android TV Remote Control App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native app for controlling Android TVs over WiFi without requiring ADB privileges. Built with Expo, NativeWind (Tailwind CSS), and native Android NSD (Network Service Discovery).
 
-## Get started
+## Features
 
-1. Install dependencies
+-  **Auto-Discovery**: Automatically finds Android TVs on your local network using NSD
+-  **Phone Remote**: Control your Android TV from your phone
+-  **AMOLED Theme**: Pure black theme optimized for OLED displays
+-  **Full Control**: D-pad navigation, volume, media controls, and more
+-  **No ADB Required**: Works over WiFi without special permissions
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
 
-2. Start the app
+- **React Native** with Expo (ejected)
+- **NativeWind** (Tailwind CSS for React Native)
+- **Lucide React Native** for icons
+- **Android NSD** for TV discovery
+- **TCP Sockets** for TV communication
 
-   ```bash
-   npx expo start
-   ```
+## How It Works
 
-In the output, you'll find options to open the app in a
+1. **Discovery**: Uses Android's NsdManager to discover devices advertising the `_androidtvremote2._tcp` service
+2. **Connection**: Connects to the TV using TCP sockets on port 6466
+3. **Control**: Sends key events to the TV using the Android TV Remote Protocol
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Setup
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Prerequisites
 
-## Get a fresh project
+- Node.js 18+
+- Android Studio
+- Android device or emulator
+- Android TV on the same WiFi network
 
-When you're ready, run:
+### Installation
 
 ```bash
-npm run reset-project
+# Install dependencies
+npm install
+
+# Build Android app
+cd android
+./gradlew assembleDebug
+
+# Install on device
+adb install app/build/outputs/apk/debug/app-debug.apk
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Development
 
-## Learn more
+```bash
+# Start Metro bundler
+npm start
 
-To learn more about developing your project with Expo, look at the following resources:
+# Run on Android
+npm run android
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Usage
 
-## Join the community
+1. **Connect to WiFi**: Ensure your phone and Android TV are on the same WiFi network
+2. **Open App**: Launch XR-TV on your phone
+3. **Select TV**: The app will automatically discover nearby Android TVs
+4. **Control**: Tap a TV to connect and start controlling it
 
-Join our community of developers creating universal apps.
+## Supported Controls
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **D-Pad**: Up, Down, Left, Right, Select
+- **Navigation**: Home, Back, Menu
+- **Volume**: Up, Down, Mute
+- **Media**: Play/Pause, Next, Previous
+- **Power**: Turn TV on/off
+
+## Project Structure
+
+```
+├── app/
+│   ├── (tabs)/
+│   │   ├── remote.tsx      # Main remote control UI
+│   │   └── profile.tsx     # Profile/settings
+│   └── _layout.tsx
+├── android/
+│   └── app/src/main/java/com/anonymous/XRTV/
+│       ├── NsdModule.kt    # Native NSD discovery module
+│       └── NsdPackage.kt   # Module registration
+├── hooks/
+│   └── useNsdDiscovery.ts  # React hook for NSD
+├── services/
+│   └── AndroidTVRemote.ts  # TV remote protocol implementation
+└── tailwind.config.js      # AMOLED theme configuration
+```
+
+## Troubleshooting
+
+### No TVs Found
+
+- Ensure phone and TV are on the same WiFi network
+- Check that your TV supports remote control apps
+- Try restarting both devices
+- Verify no firewall is blocking mDNS/Bonjour traffic
+
+### Connection Failed
+
+- Make sure the TV is powered on
+- Check that port 6466 is not blocked
+- Try connecting to the TV's IP address manually
+- Restart the TV's remote control service
+
+### Build Errors
+
+```bash
+# Clean build
+cd android
+./gradlew clean
+./gradlew assembleDebug
+```
+
+## Android TV Remote Protocol
+
+This app uses the Android TV Remote Service protocol, which:
+- Runs on port 6466
+- Uses TCP for communication
+- Requires devices to be on the same local network
+- Supports standard Android key events
+
+## License
+
+MIT
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
