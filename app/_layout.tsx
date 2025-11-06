@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import "../polyfills";
 import "./globals.css";
 
 export default function RootLayout() {

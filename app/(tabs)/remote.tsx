@@ -47,10 +47,26 @@ const Remote = () => {
       const remote = new AndroidTVRemote(device.host, device.port)
       await remote.connect()
       remoteRef.current = remote
+      
+      // Wait a bit for pairing response
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      const pairingCode = remote.getPairingCode()
+      if (pairingCode) {
+        Alert.alert(
+          'Pairing Required',
+          `Enter this code on your TV: ${pairingCode}`,
+          [{ text: 'OK' }]
+        )
+      }
+      
       setConnected(true)
       setSelectedDevice(device.serviceName)
       setLastAction('Connected to TV')
-      Alert.alert('Success', `Connected to ${device.serviceName}`)
+      
+      if (!pairingCode) {
+        Alert.alert('Success', `Connected to ${device.serviceName}`)
+      }
     } catch (error) {
       Alert.alert('Connection Failed', 'Could not connect to TV. Make sure the TV is on and accessible.')
       console.error('Connection error:', error)
