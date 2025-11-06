@@ -12,11 +12,13 @@ A React Native app for controlling Android TVs over WiFi without requiring ADB p
 
 ## Tech Stack
 
-- **React Native** with Expo (ejected)
+- **React Native** with Expo (ejected for custom native modules)
 - **NativeWind** (Tailwind CSS for React Native)
 - **Lucide React Native** for icons
-- **Android NSD** for TV discovery
+- **Android NSD** for TV discovery (custom native module)
 - **TCP Sockets** for TV communication
+
+> **Note:** This project has been ejected from Expo to support custom native Android modules. The `android/` folder contains custom Kotlin code and should be tracked in version control. See [android/CUSTOM_NATIVE_CODE.md](android/CUSTOM_NATIVE_CODE.md) for details.
 
 ## How It Works
 

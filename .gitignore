@@ -38,6 +38,26 @@ yarn-error.*
 
 app-example
 
-# generated native folders
+# iOS (not using iOS for this project)
 /ios
-/android
+
+# Android - Ignore build outputs and generated files, but keep source code
+/android/.gradle/
+/android/.idea/
+/android/build/
+/android/app/build/
+/android/app/.cxx/
+/android/local.properties
+/android/*.iml
+/android/.externalNativeBuild/
+/android/.cxx/
+/android/captures/
+/android/app/release/
+
+# Keep these Android files (custom native modules and configuration):
+# - /android/app/src/main/java/com/anonymous/XRTV/*.kt (our custom modules)
+# - /android/app/src/main/AndroidManifest.xml
+# - /android/app/build.gradle
+# - /android/build.gradle
+# - /android/settings.gradle
+# - /android/gradle.properties
