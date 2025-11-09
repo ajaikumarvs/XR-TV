@@ -1,6 +1,6 @@
 # Custom Native Android Code
 
-This project has been ejected from Expo and contains custom native Android modules. These files should be tracked in version control.
+This project has been ejected from Expo and contains custom native Android modules.
 
 ## Custom Native Modules
 
